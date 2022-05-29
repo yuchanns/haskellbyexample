@@ -25,6 +25,8 @@ main = do
   putStrLn ("validate 4012888888881881 == True: " ++ show ex8)
   let ex9 = not (validate 4012888888881882)
   putStrLn ("validate 4012888888881882 == False: " ++ show ex9)
+  let ex10 = hanoi 2 "a" "b" "c" == [("a", "c"), ("a", "b"), ("c", "b")]
+  putStrLn ("hanoi 2 \"a\" \"b\" \"c\" == [(\"a\",\"c\"), (\"a\",\"b\"), (\"c\",\"b\")]: " ++ show ex10)
 
 -- Homework 1
 -- Validating Credit Card Numbers
@@ -94,9 +96,15 @@ validate n = (sumDigits (doubleEveryOther (toDigits n)) `mod` 10) == 0
 -- should return a list of moves to be performed to move the stack
 -- of discs from the first peg to the second.
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
--- TODO: implement rules
-hanoi n a b c = []
+hanoi n a b c
+  | n == 0 = []
+  | n == 1 = [(a, b)]
+  | otherwise = hanoi (n -1) a c b ++ hanoi 1 a b c ++ hanoi (n -1) c b a
 
 type Peg = String
 
 type Move = (Peg, Peg)
+
+-- Exercise 6
+-- What if there are four pegs instead of three?
+-- TODO: implement
